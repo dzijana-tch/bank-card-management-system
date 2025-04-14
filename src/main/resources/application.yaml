@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/bank_card_management_system_db}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+  liquibase:
+    enabled: true
+    change-log: classpath:changelog-master.yaml
+    drop-first: false
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+        ddl-auto: none
+        show-sql: true
+token:
+  signing:
+    key: 23db84eeedfb2b58793b87c3d5224baf02018b0a755b944b0293dbe725272e19
