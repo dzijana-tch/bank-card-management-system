@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-card_limits-table
+      author: charniuk
+      changes:
+        - createTable:
+            tableName: card_limits
+            columns:
+              - column:
+                  name: card_limit_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_card_limits
+              - column:
+                  name: card_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_card_limits_card_id
+                    references: cards(card_id)
+              - column:
+                  name: type
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: DECIMAL(19, 2)
+                  constraints:
+                    nullable: false

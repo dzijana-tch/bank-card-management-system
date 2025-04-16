@@ -1,17 +1,17 @@
 databaseChangeLog:
   - changeSet:
-      id: create-app_user-table
+      id: create-app_users-table
       author: charniuk
       changes:
         - createTable:
-            tableName: app_user
+            tableName: app_users
             columns:
               - column:
                   name: app_user_id
                   type: UUID
                   constraints:
                     primaryKey: true
-                    primaryKeyName: pk_app_user
+                    primaryKeyName: pk_app_users
               - column:
                   name: email
                   type: VARCHAR(255)
