@@ -14,10 +14,46 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+  @ExceptionHandler(InsufficientFundsException.class)
+  public ResponseEntity<ErrorResponse> handleInsufficientFunds(HttpServletRequest request) {
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(ErrorResponse.builder()
+            .uri(request.getRequestURI())
+            .type("400 BAD REQUEST")
+            .message("Недостаточно средств на балансе")
+            .timestamp(Instant.now().getEpochSecond())
+            .build());
+  }
+
+  @ExceptionHandler(CardLimitExceededException.class)
+  public ResponseEntity<ErrorResponse> handleCardLimitExceeded(HttpServletRequest request) {
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(ErrorResponse.builder()
+            .uri(request.getRequestURI())
+            .type("400 BAD REQUEST")
+            .message("Превышен лимит по карте")
+            .timestamp(Instant.now().getEpochSecond())
+            .build());
+  }
+
+  @ExceptionHandler(CardNotActiveException.class)
+  public ResponseEntity<ErrorResponse> handleCardNotActive(HttpServletRequest request) {
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(ErrorResponse.builder()
+            .uri(request.getRequestURI())
+            .type("400 BAD REQUEST")
+            .message("Карта неактивна")
+            .timestamp(Instant.now().getEpochSecond())
+            .build());
+  }
+
   @ExceptionHandler(BadCredentialsException.class)
   public ResponseEntity<ErrorResponse> handleBadCredentials(HttpServletRequest request) {
     return ResponseEntity
-        .status(HttpStatus.UNAUTHORIZED)
+        .status(HttpStatus.BAD_REQUEST)
         .body(ErrorResponse.builder()
             .uri(request.getRequestURI())
             .type("401 BAD CREDENTIALS")
@@ -27,7 +63,8 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-  public ResponseEntity<ErrorResponse> handleAuthenticationCredentialsNotFound(HttpServletRequest request) {
+  public ResponseEntity<ErrorResponse> handleAuthenticationCredentialsNotFound(
+      HttpServletRequest request) {
     return ResponseEntity
         .status(HttpStatus.UNAUTHORIZED)
         .body(ErrorResponse.builder()
@@ -65,6 +102,19 @@ public class GlobalExceptionHandler {
             .build());
   }
 
+  @ExceptionHandler(CardNotFoundException.class)
+  public ResponseEntity<ErrorResponse> handleCardNotFound(HttpServletRequest request) {
+
+    return ResponseEntity
+        .status(HttpStatus.NOT_FOUND)
+        .body(ErrorResponse.builder()
+            .uri(request.getRequestURI())
+            .type("404 NOT FOUND")
+            .message("Карта не найдена")
+            .timestamp(Instant.now().getEpochSecond())
+            .build());
+  }
+
   @ExceptionHandler(UserAlreadyExistsException.class)
   public ResponseEntity<ErrorResponse> handleUserAlreadyExists(HttpServletRequest request) {
 
@@ -72,8 +122,22 @@ public class GlobalExceptionHandler {
         .status(HttpStatus.CONFLICT)
         .body(ErrorResponse.builder()
             .uri(request.getRequestURI())
-            .type("409 USER ALREADY EXISTS")
+            .type("409 CONFLICT")
             .message("Данный пользователь уже существует")
+            .timestamp(Instant.now().getEpochSecond())
+            .build());
+  }
+
+  @ExceptionHandler(CardLimitAlreadyExistsException.class)
+  public ResponseEntity<ErrorResponse> handleCardLimitAlreadyExists(HttpServletRequest request) {
+
+    return ResponseEntity
+        .status(HttpStatus.CONFLICT)
+        .body(ErrorResponse.builder()
+            .uri(request.getRequestURI())
+            .type("409 CONFLICT")
+            .message(
+                "Лимит данного типа уже существует. Пожалуйста, отредактируйте существующий лимит либо удалите перед созданием нового")
             .timestamp(Instant.now().getEpochSecond())
             .build());
   }

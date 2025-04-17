@@ -1,6 +1,6 @@
 package com.charniuk.bankcardmanagementsystem.model;
 
-import com.charniuk.bankcardmanagementsystem.enums.TransactionType;
+import com.charniuk.bankcardmanagementsystem.enums.BlockRequestStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,49 +12,54 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "transactions")
+@Table(name = "card_block_requests")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Transaction {
+public class CardBlockRequest {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  @Column(name = "transaction_id", nullable = false)
-  private UUID transactionId;
-
-  @Column(nullable = false)
-  private BigDecimal amount;
-
-  @Column
-  private String description;
-
-  @Column(name = "transaction_timestamp", nullable = false)
-  private LocalDateTime transactionTimestamp;
-
-  @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
-  private TransactionType type;
+  @Column(name = "request_id", nullable = false)
+  private UUID requestId;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "card_id", nullable = false)
   private Card card;
 
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private BlockRequestStatus status;
+
+  @Column(nullable = false)
+  private String reason;
+
+  @Column(name = "requested_at", nullable = false)
+  private LocalDateTime requestedAt;
+
+  @Column(name = "processed_at")
+  private LocalDateTime processedAt;
+
   @PrePersist
-  public void setTransactionTimestamp() {
-    this.transactionTimestamp = LocalDateTime.now();
+  public void setRequestedAt() {
+    this.requestedAt = LocalDateTime.now();
+  }
+
+  @PreUpdate
+  public void setProcessedAt() {
+    this.processedAt = LocalDateTime.now();
   }
 }
