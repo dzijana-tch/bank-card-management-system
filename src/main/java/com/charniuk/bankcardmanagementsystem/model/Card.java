@@ -62,9 +62,11 @@ public class Card {
   @JoinColumn(name = "app_user_id", nullable = false)
   private User user;
 
+  @Builder.Default
   @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Transaction> transactions = new ArrayList<>();
 
+  @Builder.Default
   @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<CardLimit> cardLimit = new ArrayList<>();
 }

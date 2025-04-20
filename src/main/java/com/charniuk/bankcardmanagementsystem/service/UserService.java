@@ -68,7 +68,6 @@ public interface UserService {
 
   /**
    * Удалить пользователя
-   *
    */
   void delete(UUID userId);
 }

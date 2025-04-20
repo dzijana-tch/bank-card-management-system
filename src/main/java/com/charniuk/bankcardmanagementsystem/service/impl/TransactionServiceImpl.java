@@ -1,6 +1,8 @@
 package com.charniuk.bankcardmanagementsystem.service.impl;
 
 import com.charniuk.bankcardmanagementsystem.dto.request.TransactionFilterRequest;
+import com.charniuk.bankcardmanagementsystem.dto.request.TransferRequest;
+import com.charniuk.bankcardmanagementsystem.dto.request.WithdrawalRequest;
 import com.charniuk.bankcardmanagementsystem.dto.response.TransactionResponse;
 import com.charniuk.bankcardmanagementsystem.enums.CardStatus;
 import com.charniuk.bankcardmanagementsystem.enums.TransactionType;
@@ -44,7 +46,11 @@ public class TransactionServiceImpl implements TransactionService {
 
   @Override
   @Transactional
-  public void makeTransfer(UUID senderCardId, UUID recipientCardId, BigDecimal amount) {
+  public void makeTransfer(TransferRequest transferRequest) {
+
+    UUID senderCardId = transferRequest.getSenderCardId();
+    UUID recipientCardId = transferRequest.getRecipientCardId();
+    BigDecimal amount = transferRequest.getAmount();
 
     Card senderCard = cardService.getByCardId(senderCardId);
     Card recipientCard = cardService.getByCardId(recipientCardId);
@@ -66,7 +72,10 @@ public class TransactionServiceImpl implements TransactionService {
 
   @Override
   @Transactional
-  public void withdrawFromCard(UUID cardId, BigDecimal amount) {
+  public void withdrawFromCard(WithdrawalRequest withdrawalRequest) {
+
+    UUID cardId = withdrawalRequest.getCardId();
+    BigDecimal amount = withdrawalRequest.getAmount();
 
     Card card = cardService.getByCardId(cardId);
     isTransactionPossible(card, amount);

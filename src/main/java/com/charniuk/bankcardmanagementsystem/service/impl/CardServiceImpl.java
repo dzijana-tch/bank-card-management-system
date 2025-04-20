@@ -82,4 +82,13 @@ public class CardServiceImpl implements CardService {
     return cardMapper.toResponse(cards);
   }
 
+  @Override
+  @Transactional
+  public boolean isCardOwner(UUID cardId, UUID userId) {
+
+    Card card = getByCardId(cardId);
+    return card.getUser().getUserId().equals(userId);
+  }
+
+
 }

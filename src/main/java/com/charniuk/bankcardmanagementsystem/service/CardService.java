@@ -52,4 +52,13 @@ public interface CardService {
    */
   List<CardResponse> getAllCards(CardFilterRequest cardFilterRequest, Pageable pageable);
 
+  /**
+   * Проверяет, является ли пользователь владельцем карты.
+   *
+   * @param cardId ID карты
+   * @param userId ID пользователя
+   * @return true, если пользователь - владелец, иначе false
+   */
+  boolean isCardOwner(UUID cardId, UUID userId);
+
 }

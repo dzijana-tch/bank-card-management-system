@@ -1,10 +1,10 @@
 package com.charniuk.bankcardmanagementsystem.service;
 
 import com.charniuk.bankcardmanagementsystem.dto.request.TransactionFilterRequest;
+import com.charniuk.bankcardmanagementsystem.dto.request.TransferRequest;
+import com.charniuk.bankcardmanagementsystem.dto.request.WithdrawalRequest;
 import com.charniuk.bankcardmanagementsystem.dto.response.TransactionResponse;
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 
 public interface TransactionService {
@@ -18,13 +18,13 @@ public interface TransactionService {
       Pageable pageable);
 
   /**
-   * Совершить перевод между картами
+   * Совершить перевод между картами (с проверкой лимита)
    */
-  void makeTransfer(UUID senderCardId, UUID recipientCardId, BigDecimal amount);
+  void makeTransfer(TransferRequest transferRequest);
 
   /**
    * Списать средства с карты (с проверкой лимита)
    */
-  void withdrawFromCard(UUID cardId, BigDecimal amount);
+  void withdrawFromCard(WithdrawalRequest withdrawalRequest);
 
 }
