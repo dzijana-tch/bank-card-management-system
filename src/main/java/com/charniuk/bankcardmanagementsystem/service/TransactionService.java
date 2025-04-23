@@ -1,10 +1,11 @@
 package com.charniuk.bankcardmanagementsystem.service;
 
-import com.charniuk.bankcardmanagementsystem.dto.request.TransactionFilterRequest;
 import com.charniuk.bankcardmanagementsystem.dto.request.TransferRequest;
 import com.charniuk.bankcardmanagementsystem.dto.request.WithdrawalRequest;
 import com.charniuk.bankcardmanagementsystem.dto.response.TransactionResponse;
+import com.charniuk.bankcardmanagementsystem.enums.TransactionType;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 
 public interface TransactionService {
@@ -14,7 +15,7 @@ public interface TransactionService {
    *
    * @return List dto с информацией о транзакциях
    */
-  List<TransactionResponse> getAllTransactions(TransactionFilterRequest transactionFilterRequest,
+  List<TransactionResponse> getAllTransactions(TransactionType type, UUID cardId,
       Pageable pageable);
 
   /**

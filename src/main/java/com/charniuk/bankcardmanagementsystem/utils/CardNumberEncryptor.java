@@ -6,12 +6,14 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import org.springframework.beans.factory.annotation.Value;
 
 @Converter
 public class CardNumberEncryptor implements AttributeConverter<String, String> {
 
   private static final String ALGORITHM = "AES/ECB/PKCS5Padding";
-  private static final String SECRET = "your-encryption-secret";
+  @Value("${security.encryption.secret-key}")
+  private static final String SECRET = "DaIikkBlsSixfnHYVIwmDvAbjKPZPnMM";
 
   @Override
   public String convertToDatabaseColumn(String attribute) {

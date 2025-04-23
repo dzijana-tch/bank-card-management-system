@@ -1,8 +1,8 @@
 package com.charniuk.bankcardmanagementsystem.service;
 
-import com.charniuk.bankcardmanagementsystem.dto.request.CardFilterRequest;
 import com.charniuk.bankcardmanagementsystem.dto.request.CardRequest;
 import com.charniuk.bankcardmanagementsystem.dto.response.CardResponse;
+import com.charniuk.bankcardmanagementsystem.enums.CardStatus;
 import com.charniuk.bankcardmanagementsystem.model.Card;
 import java.util.List;
 import java.util.UUID;
@@ -50,7 +50,8 @@ public interface CardService {
    *
    * @return List dto с информацией о всех картах
    */
-  List<CardResponse> getAllCards(CardFilterRequest cardFilterRequest, Pageable pageable);
+  List<CardResponse> getAllCards(UUID userId, String cardHolderName, CardStatus status,
+      Pageable pageable);
 
   /**
    * Проверяет, является ли пользователь владельцем карты.

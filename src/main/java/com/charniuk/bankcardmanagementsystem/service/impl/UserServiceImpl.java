@@ -1,6 +1,5 @@
 package com.charniuk.bankcardmanagementsystem.service.impl;
 
-import com.charniuk.bankcardmanagementsystem.dto.request.UserRequest;
 import com.charniuk.bankcardmanagementsystem.dto.response.UserResponse;
 import com.charniuk.bankcardmanagementsystem.exceptions.UserAlreadyExistsException;
 import com.charniuk.bankcardmanagementsystem.exceptions.UserNotFoundException;
@@ -54,13 +53,6 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  @Transactional
-  public UserResponse create(UserRequest userRequest) {
-    User user = create(userMapper.toEntity(userRequest));
-    return userMapper.toResponse(user);
-  }
-
-  @Override
   @Transactional(readOnly = true)
   public UserResponse getDtoByUserId(UUID userId) {
     User user = getByUserId(userId);
@@ -76,18 +68,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   @Transactional
-  public UserResponse update(UUID userId, UserRequest userRequest) {
-    User user = getByUserId(userId);
-    userMapper.updateUserFromRequest(user, userRequest);
-    return userMapper.toResponse(user);
-  }
-
-  @Override
-  @Transactional
   public void delete(UUID userId) {
     User user = getByUserId(userId);
     userRepository.delete(user);
   }
-
-
 }

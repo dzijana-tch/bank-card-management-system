@@ -1,6 +1,5 @@
 package com.charniuk.bankcardmanagementsystem.service.impl;
 
-import com.charniuk.bankcardmanagementsystem.dto.request.TransactionFilterRequest;
 import com.charniuk.bankcardmanagementsystem.dto.request.TransferRequest;
 import com.charniuk.bankcardmanagementsystem.dto.request.WithdrawalRequest;
 import com.charniuk.bankcardmanagementsystem.dto.response.TransactionResponse;
@@ -37,10 +36,10 @@ public class TransactionServiceImpl implements TransactionService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<TransactionResponse> getAllTransactions(
-      TransactionFilterRequest transactionFilterRequest, Pageable pageable) {
+  public List<TransactionResponse> getAllTransactions(TransactionType type, UUID cardId,
+      Pageable pageable) {
     List<Transaction> transactions = transactionRepository.findFilteredTransactions(
-        transactionFilterRequest.getType(), transactionFilterRequest.getCardId(), pageable);
+        type, cardId, pageable);
     return transactionMapper.toResponse(transactions);
   }
 
@@ -60,14 +59,22 @@ public class TransactionServiceImpl implements TransactionService {
 
     recipientCard.setBalance(recipientCard.getBalance().add(amount));
 
-    Transaction transaction = Transaction.builder()
-        .amount(amount)
+    Transaction outTransaction = Transaction.builder()
+        .amount(BigDecimal.ZERO.subtract(amount))
         .description("Перевод средств на карту " + recipientCard.getCardNumber())
         .type(TransactionType.TRANSFER_OUT)
         .card(senderCard)
         .build();
 
-    transactionRepository.save(transaction);
+    Transaction inTransaction = Transaction.builder()
+        .amount(amount)
+        .description("Входящий перевод")
+        .type(TransactionType.TRANSFER_IN)
+        .card(recipientCard)
+        .build();
+
+    transactionRepository.save(outTransaction);
+    transactionRepository.save(inTransaction);
   }
 
   @Override
@@ -83,7 +90,7 @@ public class TransactionServiceImpl implements TransactionService {
     card.setBalance(card.getBalance().subtract(amount));
 
     Transaction transaction = Transaction.builder()
-        .amount(amount)
+        .amount(BigDecimal.ZERO.subtract(amount))
         .description("Снятие средств")
         .type(TransactionType.WITHDRAWAL)
         .card(card)

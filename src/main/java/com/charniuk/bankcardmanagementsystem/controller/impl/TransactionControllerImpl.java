@@ -1,13 +1,14 @@
 package com.charniuk.bankcardmanagementsystem.controller.impl;
 
 import com.charniuk.bankcardmanagementsystem.controller.TransactionController;
-import com.charniuk.bankcardmanagementsystem.dto.request.TransactionFilterRequest;
 import com.charniuk.bankcardmanagementsystem.dto.request.TransferRequest;
 import com.charniuk.bankcardmanagementsystem.dto.request.WithdrawalRequest;
 import com.charniuk.bankcardmanagementsystem.dto.response.TransactionResponse;
+import com.charniuk.bankcardmanagementsystem.enums.TransactionType;
 import com.charniuk.bankcardmanagementsystem.service.TransactionService;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,11 +32,12 @@ public class TransactionControllerImpl implements TransactionController {
   @GetMapping
   @Override
   @PreAuthorize("hasRole('ADMIN') or "
-      + "@cardServiceImpl.isCardOwner(#transactionFilterRequest.cardId, authentication.principal.user.userId)")
+      + "@cardServiceImpl.isCardOwner(#cardId, authentication.principal.userId)")
   public ResponseEntity<List<TransactionResponse>> get(
-      @RequestBody @Valid TransactionFilterRequest transactionFilterRequest,
+      @RequestParam(required = false) TransactionType type,
+      @RequestParam(value = "card_id", required = false) UUID cardId,
       @RequestParam(value = "sort_direction", defaultValue = "ASC") String sortDirection,
-      @RequestParam(value = "sort_by", defaultValue = "expirationDate") String sortBy,
+      @RequestParam(value = "sort_by", defaultValue = "transactionTimestamp") String sortBy,
       @RequestParam Integer offset,
       @RequestParam Integer limit) {
 
@@ -44,12 +46,12 @@ public class TransactionControllerImpl implements TransactionController {
     Pageable pageable = PageRequest.of(offset, limit, sort);
 
     return ResponseEntity.ok(
-        transactionService.getAllTransactions(transactionFilterRequest, pageable));
+        transactionService.getAllTransactions(type, cardId, pageable));
   }
 
   @PostMapping("/transfer")
   @Override
-  @PreAuthorize("@cardServiceImpl.isCardOwner(#transferRequest.senderCardId, authentication.principal.user.userId)")
+  @PreAuthorize("@cardServiceImpl.isCardOwner(#transferRequest.senderCardId, authentication.principal.userId)")
   public ResponseEntity<Void> makeTransfer(
       @RequestBody @Valid TransferRequest transferRequest) {
 
@@ -59,7 +61,7 @@ public class TransactionControllerImpl implements TransactionController {
 
   @PostMapping("/withdrawal")
   @Override
-  @PreAuthorize("@cardServiceImpl.isCardOwner(#withdrawalRequest.cardId, authentication.principal.user.userId)")
+  @PreAuthorize("@cardServiceImpl.isCardOwner(#withdrawalRequest.cardId, authentication.principal.userId)")
   public ResponseEntity<Void> withdrawFromCard(
       @RequestBody @Valid WithdrawalRequest withdrawalRequest) {
 

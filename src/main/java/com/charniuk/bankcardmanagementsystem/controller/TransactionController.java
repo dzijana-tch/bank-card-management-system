@@ -1,10 +1,10 @@
 package com.charniuk.bankcardmanagementsystem.controller;
 
-import com.charniuk.bankcardmanagementsystem.dto.request.TransactionFilterRequest;
 import com.charniuk.bankcardmanagementsystem.dto.request.TransferRequest;
 import com.charniuk.bankcardmanagementsystem.dto.request.WithdrawalRequest;
 import com.charniuk.bankcardmanagementsystem.dto.response.ErrorResponse;
 import com.charniuk.bankcardmanagementsystem.dto.response.TransactionResponse;
+import com.charniuk.bankcardmanagementsystem.enums.TransactionType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,17 +12,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@Tag(name = "Работа с транзакциями")
+@Tag(name = "Транзакции")
 public interface TransactionController {
 
   /**
    * Получить транзакции (с пагинацией)
    *
-   * @param transactionFilterRequest данные о фильтрации списка транзакций
+   * @param type                     тип транзакции (опционально)
+   * @param cardId                   id карты (опционально)
    * @param sortDirection            направление сортировки (ASC, DESC)
    * @param sortBy                   поле, по которому происходит сортировка
    * @param offset                   номер страницы
@@ -59,7 +61,7 @@ public interface TransactionController {
       }
   )
   @GetMapping
-  ResponseEntity<List<TransactionResponse>> get(TransactionFilterRequest transactionFilterRequest,
+  ResponseEntity<List<TransactionResponse>> get(TransactionType type, UUID cardId,
       String sortDirection, String sortBy, Integer offset, Integer limit);
 
   /**
@@ -73,6 +75,12 @@ public interface TransactionController {
           @ApiResponse(
               responseCode = "200",
               description = "OK"),
+          @ApiResponse(
+              responseCode = "400",
+              description = "Bad request",
+              content = @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ErrorResponse.class))),
           @ApiResponse(
               responseCode = "403",
               description = "Forbidden",
@@ -107,6 +115,12 @@ public interface TransactionController {
           @ApiResponse(
               responseCode = "200",
               description = "OK"),
+          @ApiResponse(
+              responseCode = "400",
+              description = "Bad request",
+              content = @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ErrorResponse.class))),
           @ApiResponse(
               responseCode = "403",
               description = "Forbidden",

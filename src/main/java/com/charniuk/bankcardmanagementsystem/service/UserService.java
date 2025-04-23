@@ -1,6 +1,5 @@
 package com.charniuk.bankcardmanagementsystem.service;
 
-import com.charniuk.bankcardmanagementsystem.dto.request.UserRequest;
 import com.charniuk.bankcardmanagementsystem.dto.response.UserResponse;
 import com.charniuk.bankcardmanagementsystem.model.User;
 import java.util.List;
@@ -39,13 +38,6 @@ public interface UserService {
   User create(User user);
 
   /**
-   * Создание пользователя
-   *
-   * @return dto созданного пользователя
-   */
-  UserResponse create(UserRequest userRequest);
-
-  /**
    * Получение пользователя по айди
    *
    * @return dto пользователя
@@ -58,13 +50,6 @@ public interface UserService {
    * @return dto пользователей
    */
   List<UserResponse> getAllUserDto();
-
-  /**
-   * Обновление информации о пользователе
-   *
-   * @return dto пользователя
-   */
-  UserResponse update(UUID userId, UserRequest userRequest);
 
   /**
    * Удалить пользователя

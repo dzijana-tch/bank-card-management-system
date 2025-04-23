@@ -1,0 +1,4 @@
+app_user_id,email,password,name,role
+6453759c-33cb-487d-8ba8-4cce37c58c0c,ivanov@mail.ru,$2a$10$5jXpS8AyrJREnhIiUtHwKOOtFltrYr9IKTvG.zDcsjsIDdAQHm.Pa,Иван Иванов,ROLE_USER
+b48440dd-213a-46c8-b2e1-fd3923d09afd,serega97@mail.ru,$2a$10$9ohve5b3EP3WP0Hhf0YW/uAumXdHOFL79DOJSOz9jgabhdY7TgF7y,Сергей Админов,ROLE_ADMIN
+92f9b14c-a774-4e33-aedb-1ee149c11082,dzijana.tch@yandex.by,$2a$10$nhNL4Kictr.wO4pa8M2L0OGc/8SSNhZdYvlz1sPmUmfcySPq7M/1y,Диана Чернюк,ROLE_USER

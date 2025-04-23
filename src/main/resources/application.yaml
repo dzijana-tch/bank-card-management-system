@@ -18,3 +18,11 @@ spring:
 token:
   signing:
     key: 23db84eeedfb2b58793b87c3d5224baf02018b0a755b944b0293dbe725272e19
+security:
+  encryption:
+    secret-key: DaIikkBlsSixfnHYVIwmDvAbjKPZPnMM
+logging:
+  level:
+    org:
+      springframework: DEBUG
+      hibernate: TRACE

@@ -14,10 +14,10 @@ import org.springframework.stereotype.Repository;
 public interface CardRepository extends JpaRepository<Card, UUID> {
 
   @Query("SELECT c FROM Card c WHERE " +
-      "(:cardId IS NULL OR c.cardId = :cardId) AND " +
+      "(:userId IS NULL OR c.user.userId = :userId) AND " +
       "(:status IS NULL OR c.status = :status) AND " +
       "(:cardHolderName IS NULL OR UPPER(c.cardHolderName) LIKE %:cardHolderName%)")
-  List<Card> findFilteredCards(@Param("cardId") UUID cardId,
+  List<Card> findFilteredCards(@Param("userId") UUID userId,
       @Param("cardHolderName") String cardHolderName, @Param("status") CardStatus status,
       Pageable pageable);
 

@@ -1,6 +1,5 @@
 package com.charniuk.bankcardmanagementsystem.service.impl;
 
-import com.charniuk.bankcardmanagementsystem.dto.request.CardFilterRequest;
 import com.charniuk.bankcardmanagementsystem.dto.request.CardRequest;
 import com.charniuk.bankcardmanagementsystem.dto.response.CardResponse;
 import com.charniuk.bankcardmanagementsystem.enums.CardStatus;
@@ -75,10 +74,9 @@ public class CardServiceImpl implements CardService {
   }
 
   @Override
-  public List<CardResponse> getAllCards(CardFilterRequest cardFilterRequest, Pageable pageable) {
+  public List<CardResponse> getAllCards(UUID userId, String cardHolderName, CardStatus status, Pageable pageable) {
 
-    List<Card> cards = cardRepository.findFilteredCards(cardFilterRequest.getCardId(),
-        cardFilterRequest.getCardHolderName(), cardFilterRequest.getStatus(), pageable);
+    List<Card> cards = cardRepository.findFilteredCards(userId, cardHolderName, status, pageable);
     return cardMapper.toResponse(cards);
   }
 

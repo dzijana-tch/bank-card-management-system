@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: load-data-into-app_users-cards-transactions-tables
+      author: charniuk
+      changes:
+        - loadData:
+            tableName: app_users
+            encoding: UTF-8
+            separator: ','
+            file: db/changelog/2025/04/csv/app_users.csv
+        - loadData:
+            tableName: cards
+            encoding: UTF-8
+            separator: ','
+            file: db/changelog/2025/04/csv/cards.csv
+        - loadData:
+            tableName: transactions
+            encoding: UTF-8
+            separator: ','
+            file: db/changelog/2025/04/csv/transactions.csv

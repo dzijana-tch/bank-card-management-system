@@ -18,6 +18,7 @@ public interface CardMapper {
   @Mapping(target = "user", source = "user")
   Card toEntity(CardRequest cardRequest, User user);
 
+  @Mapping(target = "userResponse", source = "user")
   CardResponse toResponse(Card card);
 
   List<CardResponse> toResponse(List<Card> cards);

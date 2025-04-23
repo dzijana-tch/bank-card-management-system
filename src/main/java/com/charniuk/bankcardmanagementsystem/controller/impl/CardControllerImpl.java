@@ -1,9 +1,9 @@
 package com.charniuk.bankcardmanagementsystem.controller.impl;
 
 import com.charniuk.bankcardmanagementsystem.controller.CardController;
-import com.charniuk.bankcardmanagementsystem.dto.request.CardFilterRequest;
 import com.charniuk.bankcardmanagementsystem.dto.request.CardRequest;
 import com.charniuk.bankcardmanagementsystem.dto.response.CardResponse;
+import com.charniuk.bankcardmanagementsystem.enums.CardStatus;
 import com.charniuk.bankcardmanagementsystem.service.CardService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -74,9 +74,11 @@ public class CardControllerImpl implements CardController {
   @GetMapping()
   @Override
   @PreAuthorize("hasRole('ADMIN') or "
-      + "@cardServiceImpl.isCardOwner(#cardFilterRequest.cardId, authentication.principal.user.userId)")
+      + "#userId.equals(authentication.principal.userId)")
   public ResponseEntity<List<CardResponse>> get(
-      @RequestBody @Valid CardFilterRequest cardFilterRequest,
+      @RequestParam(value = "user_id", required = false) UUID userId,
+      @RequestParam(value = "card_holder_name", required = false) String cardHolderName,
+      @RequestParam(required = false) CardStatus status,
       @RequestParam(value = "sort_direction", defaultValue = "ASC") String sortDirection,
       @RequestParam(value = "sort_by", defaultValue = "expirationDate") String sortBy,
       @RequestParam Integer offset,
@@ -87,6 +89,6 @@ public class CardControllerImpl implements CardController {
     Pageable pageable = PageRequest.of(offset, limit, sort);
 
     return ResponseEntity.ok(
-        cardService.getAllCards(cardFilterRequest, pageable));
+        cardService.getAllCards(userId, cardHolderName, status, pageable));
   }
 }

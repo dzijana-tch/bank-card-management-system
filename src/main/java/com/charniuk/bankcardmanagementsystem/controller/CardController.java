@@ -1,9 +1,9 @@
 package com.charniuk.bankcardmanagementsystem.controller;
 
-import com.charniuk.bankcardmanagementsystem.dto.request.CardFilterRequest;
 import com.charniuk.bankcardmanagementsystem.dto.request.CardRequest;
 import com.charniuk.bankcardmanagementsystem.dto.response.CardResponse;
 import com.charniuk.bankcardmanagementsystem.dto.response.ErrorResponse;
+import com.charniuk.bankcardmanagementsystem.enums.CardStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@Tag(name = "Работа с картами")
+@Tag(name = "Карты")
 public interface CardController {
 
   /**
@@ -176,7 +176,9 @@ public interface CardController {
   /**
    * Получить карты (c пагинацией)
    *
-   * @param cardFilterRequest данные о фильтрации списка карт
+   * @param userId            id пользователя (опционально)
+   * @param cardHolderName    имя владельца карты (опционально)
+   * @param status            статус карты (опционально)
    * @param sortDirection     направление сортировки (ASC, DESC)
    * @param sortBy            поле, по которому происходит сортировка
    * @param offset            номер страницы
@@ -213,7 +215,7 @@ public interface CardController {
       }
   )
   @GetMapping()
-  ResponseEntity<List<CardResponse>> get(CardFilterRequest cardFilterRequest, String sortDirection,
-      String sortBy, Integer offset, Integer limit);
+  ResponseEntity<List<CardResponse>> get(UUID userId, String cardHolderName, CardStatus status,
+      String sortDirection, String sortBy, Integer offset, Integer limit);
 }
 
