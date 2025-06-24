@@ -59,9 +59,12 @@ public class TransactionServiceImpl implements TransactionService {
 
     recipientCard.setBalance(recipientCard.getBalance().add(amount));
 
+    String maskedNumber = "************" + recipientCard.getCardNumber()
+        .substring(recipientCard.getCardNumber().length() - 4);
+
     Transaction outTransaction = Transaction.builder()
         .amount(BigDecimal.ZERO.subtract(amount))
-        .description("Перевод средств на карту " + recipientCard.getCardNumber())
+        .description("Перевод средств на карту " + maskedNumber)
         .type(TransactionType.TRANSFER_OUT)
         .card(senderCard)
         .build();

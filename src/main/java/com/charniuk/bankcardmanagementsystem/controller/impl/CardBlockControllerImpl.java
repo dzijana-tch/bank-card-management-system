@@ -22,8 +22,7 @@ public class CardBlockControllerImpl implements CardBlockController {
 
   @PostMapping
   @Override
-  @PreAuthorize("hasRole('ADMIN') or "
-      + "@cardServiceImpl.isCardOwner(#cardBlockRequestDto.cardId, authentication.principal.userId)")
+  @PreAuthorize("@cardServiceImpl.isCardOwner(#cardBlockRequestDto.cardId, authentication.principal.userId)")
   public ResponseEntity<CardBlockResponse> createBlockRequest(
       @RequestBody @Valid CardBlockRequestDto cardBlockRequestDto) {
 

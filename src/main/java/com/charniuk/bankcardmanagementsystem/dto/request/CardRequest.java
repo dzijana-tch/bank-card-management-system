@@ -9,10 +9,12 @@ import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Schema(description = "Запрос на создание карты")
+@Builder
 public class CardRequest {
 
   @Schema(description = "Номер карты", example = "9999999999999999")

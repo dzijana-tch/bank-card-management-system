@@ -18,14 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-  private final UserRepository repository;
   private final UserMapper userMapper;
   private final UserRepository userRepository;
 
   @Override
   @Transactional(readOnly = true)
   public User getByEmail(String email) {
-    return repository.findByEmail(email)
+    return userRepository.findByEmail(email)
         .orElseThrow(
             () -> new UserNotFoundException("Пользователь с email " + email + " не найден"));
   }
@@ -33,7 +32,7 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional(readOnly = true)
   public User getByUserId(UUID userId) {
-    return repository.findById(userId)
+    return userRepository.findById(userId)
         .orElseThrow(() -> new UserNotFoundException("Пользователь с id " + userId + " не найден"));
   }
 
@@ -45,11 +44,11 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional
   public User create(User user) {
-    if (repository.existsByEmail(user.getEmail())) {
+    if (userRepository.existsByEmail(user.getEmail())) {
       throw new UserAlreadyExistsException(
           "Пользователь с email " + user.getEmail() + " уже существует");
     }
-    return repository.save(user);
+    return userRepository.save(user);
   }
 
   @Override

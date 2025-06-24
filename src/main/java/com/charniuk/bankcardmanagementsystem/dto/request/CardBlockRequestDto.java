@@ -5,10 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.UUID;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Schema(description = "ДТО для запроса на блокировку карты")
+@Builder
 public class CardBlockRequestDto {
 
   @Schema(description = "ID карты", example = "65165863-7d85-452d-b69c-93421fdf551e")

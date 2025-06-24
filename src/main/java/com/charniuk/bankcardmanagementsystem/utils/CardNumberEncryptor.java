@@ -13,7 +13,7 @@ public class CardNumberEncryptor implements AttributeConverter<String, String> {
 
   private static final String ALGORITHM = "AES/ECB/PKCS5Padding";
   @Value("${security.encryption.secret-key}")
-  private static final String SECRET = "DaIikkBlsSixfnHYVIwmDvAbjKPZPnMM";
+  private String secret;
 
   @Override
   public String convertToDatabaseColumn(String attribute) {
@@ -42,6 +42,6 @@ public class CardNumberEncryptor implements AttributeConverter<String, String> {
   }
 
   private SecretKey generateSecretKey() {
-    return new SecretKeySpec(SECRET.getBytes(), "AES");
+    return new SecretKeySpec(secret.getBytes(), "AES");
   }
 }

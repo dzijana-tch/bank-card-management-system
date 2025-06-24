@@ -23,7 +23,8 @@ public interface UserController {
    * @param userId id пользователя
    * @return информация о пользователе
    */
-  @Operation(summary = "Получение пользователя по айди")
+  @Operation(summary = "Получение пользователя по айди",
+      description = "Доступно только администратору")
   @ApiResponses(
       value = {
           @ApiResponse(
@@ -60,7 +61,8 @@ public interface UserController {
    *
    * @return информация о пользователях
    */
-  @Operation(summary = "Получение пользователей")
+  @Operation(summary = "Получение пользователей",
+      description = "Доступно только администратору")
   @ApiResponses(
       value = {
           @ApiResponse(
@@ -89,9 +91,10 @@ public interface UserController {
   /**
    * Удалить пользователя
    *
-   * @param userId      id пользователя
+   * @param userId id пользователя
    */
-  @Operation(summary = "Удаление пользователя")
+  @Operation(summary = "Удаление пользователя",
+      description = "Доступно только администратору")
   @ApiResponses(
       value = {
           @ApiResponse(

@@ -7,10 +7,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.util.UUID;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Schema(description = "Запрос на создание лимита по карте")
+@Builder
 public class CardLimitRequest {
 
   @Schema(description = "ID карты", example = "65165863-7d85-452d-b69c-93421fdf551e")

@@ -21,7 +21,8 @@ public interface CardLimitController {
    * @param cardLimitRequest dto с информацией о лимите
    * @return информация о созданном лимите
    */
-  @Operation(summary = "Создание лимита по карте")
+  @Operation(summary = "Создание лимита по карте",
+      description = "Доступно только администратору")
   @ApiResponses(
       value = {
           @ApiResponse(

@@ -74,7 +74,7 @@ public class CardControllerImpl implements CardController {
   @GetMapping()
   @Override
   @PreAuthorize("hasRole('ADMIN') or "
-      + "#userId.equals(authentication.principal.userId)")
+      + "#userId != null and #userId.equals(authentication.principal.userId)")
   public ResponseEntity<List<CardResponse>> get(
       @RequestParam(value = "user_id", required = false) UUID userId,
       @RequestParam(value = "card_holder_name", required = false) String cardHolderName,

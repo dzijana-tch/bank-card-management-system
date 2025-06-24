@@ -27,7 +27,8 @@ public interface CardController {
    * @param cardRequest данные для создания карты
    * @return карта
    */
-  @Operation(summary = "Создание карты")
+  @Operation(summary = "Создание карты",
+      description = "Доступно только администратору")
   @ApiResponses(
       value = {
           @ApiResponse(
@@ -65,7 +66,8 @@ public interface CardController {
    * @param cardId id карты
    * @return карта
    */
-  @Operation(summary = "Блокирование карты")
+  @Operation(summary = "Блокирование карты",
+      description = "Доступно только администратору")
   @ApiResponses(
       value = {
           @ApiResponse(
@@ -103,7 +105,8 @@ public interface CardController {
    * @param cardId id карты
    * @return карта
    */
-  @Operation(summary = "Активация карты")
+  @Operation(summary = "Активация карты",
+      description = "Доступно только администратору")
   @ApiResponses(
       value = {
           @ApiResponse(
@@ -141,7 +144,8 @@ public interface CardController {
    * @param cardId id карты
    * @return карта
    */
-  @Operation(summary = "Удаление карты")
+  @Operation(summary = "Удаление карты",
+      description = "Доступно только администратору")
   @ApiResponses(
       value = {
           @ApiResponse(
@@ -176,16 +180,18 @@ public interface CardController {
   /**
    * Получить карты (c пагинацией)
    *
-   * @param userId            id пользователя (опционально)
-   * @param cardHolderName    имя владельца карты (опционально)
-   * @param status            статус карты (опционально)
-   * @param sortDirection     направление сортировки (ASC, DESC)
-   * @param sortBy            поле, по которому происходит сортировка
-   * @param offset            номер страницы
-   * @param limit             размер страницы
+   * @param userId         id пользователя (опционально)
+   * @param cardHolderName имя владельца карты (опционально)
+   * @param status         статус карты (опционально)
+   * @param sortDirection  направление сортировки (ASC, DESC)
+   * @param sortBy         поле, по которому происходит сортировка
+   * @param offset         номер страницы
+   * @param limit          размер страницы
    * @return список карт
    */
-  @Operation(summary = "Получить все карты (c пагинацией)")
+  @Operation(summary = "Получить все карты (c пагинацией)",
+      description = "Id пользователя, имя владельца и статус - опционально. "
+          + "Метод доступен администратору, а также указанному пользователю")
   @ApiResponses(
       value = {
           @ApiResponse(

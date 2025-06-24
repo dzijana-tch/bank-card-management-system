@@ -21,7 +21,8 @@ public interface CardBlockController {
    * @param cardBlockRequestDto dto с информацией о блокировке
    * @return информация о созданном запросе
    */
-  @Operation(summary = "Создание запроса на блокировку карты")
+  @Operation(summary = "Создание запроса на блокировку карты",
+      description = "Доступно только владельцу карты")
   @ApiResponses(
       value = {
           @ApiResponse(

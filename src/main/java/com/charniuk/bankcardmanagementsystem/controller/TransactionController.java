@@ -23,15 +23,17 @@ public interface TransactionController {
   /**
    * Получить транзакции (с пагинацией)
    *
-   * @param type                     тип транзакции (опционально)
-   * @param cardId                   id карты (опционально)
-   * @param sortDirection            направление сортировки (ASC, DESC)
-   * @param sortBy                   поле, по которому происходит сортировка
-   * @param offset                   номер страницы
-   * @param limit                    размер страницы
+   * @param type          тип транзакции (опционально)
+   * @param cardId        id карты (опционально)
+   * @param sortDirection направление сортировки (ASC, DESC)
+   * @param sortBy        поле, по которому происходит сортировка
+   * @param offset        номер страницы
+   * @param limit         размер страницы
    * @return список транзакций
    */
-  @Operation(summary = "Получить транзакции (с пагинацией)")
+  @Operation(summary = "Получить транзакции (с пагинацией)",
+      description = "Тип транзакции и id карты - опционально. "
+          + "Метод доступен администратору, а также владельцу указанной карты")
   @ApiResponses(
       value = {
           @ApiResponse(
@@ -69,7 +71,8 @@ public interface TransactionController {
    *
    * @param transferRequest dto с инфрмацией о картах отправителя и получателя и сумме перевода
    */
-  @Operation(summary = "Совершить перевод между картами")
+  @Operation(summary = "Совершить перевод между картами",
+      description = "Доступно только владельцу карт")
   @ApiResponses(
       value = {
           @ApiResponse(
@@ -109,7 +112,8 @@ public interface TransactionController {
    *
    * @param withdrawalRequest dto с инфрмацией о карте и сумме снятия
    */
-  @Operation(summary = "Списать средства с карты")
+  @Operation(summary = "Списать средства с карты",
+      description = "Доступно только владельцу карты")
   @ApiResponses(
       value = {
           @ApiResponse(

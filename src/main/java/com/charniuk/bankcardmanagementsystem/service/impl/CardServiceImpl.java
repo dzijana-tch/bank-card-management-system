@@ -74,7 +74,9 @@ public class CardServiceImpl implements CardService {
   }
 
   @Override
-  public List<CardResponse> getAllCards(UUID userId, String cardHolderName, CardStatus status, Pageable pageable) {
+  @Transactional(readOnly = true)
+  public List<CardResponse> getAllCards(UUID userId, String cardHolderName, CardStatus status,
+      Pageable pageable) {
 
     List<Card> cards = cardRepository.findFilteredCards(userId, cardHolderName, status, pageable);
     return cardMapper.toResponse(cards);
@@ -83,6 +85,10 @@ public class CardServiceImpl implements CardService {
   @Override
   @Transactional
   public boolean isCardOwner(UUID cardId, UUID userId) {
+
+    if (cardId == null || userId == null) {
+      return false;
+    }
 
     Card card = getByCardId(cardId);
     return card.getUser().getUserId().equals(userId);
